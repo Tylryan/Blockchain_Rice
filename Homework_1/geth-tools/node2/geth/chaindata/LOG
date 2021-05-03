@@ -1,0 +1,37 @@
+=============== May 2, 2021 (CDT) ===============
+20:08:28.824675 log@legend F·NumFile S·FileSize N·Entry C·BadEntry B·BadBlock Ke·KeyError D·DroppedEntry L·Level Q·SeqNum T·TimeElapsed
+20:08:28.842028 db@open opening
+20:08:28.843910 version@stat F·[] S·0B[] Sc·[]
+20:08:28.847145 db@janitor F·2 G·0
+20:08:28.847178 db@open done T·5.120435ms
+20:08:28.847837 db@close closing
+20:08:28.847874 db@close done T·36.52µs
+=============== May 2, 2021 (CDT) ===============
+20:12:28.787833 log@legend F·NumFile S·FileSize N·Entry C·BadEntry B·BadBlock Ke·KeyError D·DroppedEntry L·Level Q·SeqNum T·TimeElapsed
+20:12:28.788036 version@stat F·[] S·0B[] Sc·[]
+20:12:28.788078 db@open opening
+20:12:28.788186 journal@recovery F·1
+20:12:28.792340 journal@recovery recovering @1
+20:12:28.803666 memdb@flush created L0@2 N·15 S·1KiB "88\xfa..\xde?\x92,v3":"\x8b\xa6\xe2..\x98\x93\x14,v5"
+20:12:28.807514 version@stat F·[1] S·1KiB[1KiB] Sc·[0.25]
+20:12:28.820717 db@janitor F·3 G·0
+20:12:28.820730 db@open done T·32.642973ms
+20:12:28.839478 table@compaction range L-1 "a":"b"
+20:12:28.839504 table@compaction L0·1 -> L1·0 S·1KiB Q·21
+20:12:28.842763 table@build created L1@5 N·15 S·1KiB "88\xfa..\xde?\x92,v3":"\x8b\xa6\xe2..\x98\x93\x14,v5"
+20:12:28.863528 version@stat F·[0 1] S·1KiB[0B 1KiB] Sc·[0.00 0.00]
+20:12:28.869665 table@compaction committed F~ S~ Ke·0 D·0 T·30.142ms
+20:12:28.873132 memdb@flush N·7 S·464B
+20:12:28.878756 memdb@flush created L0@7 N·7 S·611B "Dat..ion,v17":"unc..own,v23"
+20:12:28.878785 version@stat F·[1 1] S·1KiB[611B 1KiB] Sc·[0.25 0.00]
+20:12:28.884665 memdb@flush committed F·1 T·11.503321ms
+20:12:28.884705 journal@remove removed @3
+20:12:28.884715 table@compaction range L-1 "o":"p"
+20:12:28.884726 table@compaction L0·1 -> L1·1 S·1KiB Q·23
+20:12:28.888075 table@build created L1@8 N·20 S·1KiB "88\xfa..\xde?\x92,v3":"\x8b\xa6\xe2..\x98\x93\x14,v5"
+20:12:28.888115 version@stat F·[0 1] S·1KiB[0B 1KiB] Sc·[0.00 0.00]
+20:12:28.894057 table@compaction committed F-1 S-263B Ke·0 D·2 T·9.319619ms
+20:12:28.894218 table@remove removed @7
+20:12:28.894297 table@remove removed @5
+20:15:04.539902 db@close closing
+20:15:04.539953 db@close done T·50.13µs
