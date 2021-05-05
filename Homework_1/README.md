@@ -45,16 +45,16 @@ At this point, you would go to MyCrypto and connect to the New Network. However,
 # Connecting MyCrypto to Network
 ## Change Networks
 Click Change Network
-![Changing Networks]('Screenshots/Connect_MyCrypto-01.png')
+![Changing Networks](Screenshots/Connect_MyCrypto-01.png)
 ##  Click "Add Custom Node"
-![Add Custom Node]('Screenshots/Connect_MyCrypto-02.png')
+![Add Custom Node](Screenshots/Connect_MyCrypto-02.png)
 ## Click "ETH" and choose a custom network
 ![Custom Network]('Screenshots/Connect_MyCrypto-03.png')
 ## Fill out the rest of the information and click "Save & Use Custom Node"
-![Saving]('Screenshots/Connect_MyCrypto-04.png')
+![Saving](Screenshots/Connect_MyCrypto-04.png)
 ## Go to the home page and add your Keystore file.
 - It should take you to the "Send Ether and Tokens Tab"
 - Make sure you are on your custom network
 - Type in the address to which you would like to send Money
-![Sending Money]('Screenshots/Connect_MyCrypto-07.png')
+![Sending Money](Screenshots/Connect_MyCrypto-07.png)
 - Click Send and Bob's your uncle
