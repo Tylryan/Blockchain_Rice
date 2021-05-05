@@ -39,7 +39,7 @@ This connects node 2 with node 1
 - `--mine`: Enables mining
 - `--rpc`: Enables the HTTP-RPC server (Will be depreciated June 2021)
 - `--allow-insecure-unlock`: Allows insecure account unlocking when account-related RPCs are exposed by http
-- `--botnodes` Comma separated enode URLs for P2P (Peer to Peer) discovery bootstrap
+- `--bootnodes`: Comma separated enode URLs for P2P (Peer to Peer) discovery bootstrap
 At this point, you would go to MyCrypto and connect to the New Network. However, if you've do this more than once, you will probably not be able to connect anymore.
 
 # Connecting MyCrypto to Network
@@ -52,9 +52,10 @@ Click Change Network
 ![Custom Network]('Screenshots/Connect_MyCrypto-03.png')
 ## Fill out the rest of the information and click "Save & Use Custom Node"
 ![Saving](Screenshots/Connect_MyCrypto-04.png)
+Note: You should not have the Network Error I show. I already have a network connected to that location.
 ## Go to the home page and add your Keystore file.
 - It should take you to the "Send Ether and Tokens Tab"
 - Make sure you are on your custom network
 - Type in the address to which you would like to send Money
 ![Sending Money](Screenshots/Connect_MyCrypto-07.png)
-- Click Send and Bob's your uncle
+Click Send and Bob's your uncle
