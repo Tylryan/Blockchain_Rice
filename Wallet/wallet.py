@@ -1,3 +1,5 @@
+#!/usr/bin/python3
+
 # Import dependencies
 import subprocess
 import json
@@ -8,6 +10,7 @@ from constants import *
 from web3 import Web3
 from eth_account import Account
 import bit
+from time import sleep
 from rich.traceback import install
 from pprint import pprint
 os.chdir('./hd-wallet-derive')
@@ -32,87 +35,114 @@ def derive_wallets(mnemonic, coin_type):
     return json.loads(output)
 
 
-# # Create a dictionary object called coins to store the output from `derive_wallets`.
-coin_types = [BTC, ETH, BTCTEST]
-coins = {}
-for i in coin_types:
-    coins[i] = derive_wallets(mnemonic, i)
-
-# # # Create a function called `priv_key_to_account` that converts privkey strings to account objects.
-
-
-# # Works
-def whichAccount(coin, private_key):
-    switch = {
-        "btc": bit.PrivateKeyTestnet(private_key),
-        'btc-test': bit.PrivateKeyTestnet(private_key),
-        "eth": Account.privateKeyToAccount(private_key)
-    }
-    return coin, switch[coin]
-
-
-privateKeys = []
-# For key value in coins
-for x, y in coins.items():
-    # From index 0-3
-    for i in range(3):
-        private_keys = y[i]['privkey']
-        privateKeys.append((x, private_keys))
-accounts = []
-for coin, private_key in privateKeys:
-    coin = coin.strip()
-    private_key = str(private_key).strip()
-    try:
-        coin, accounts = whichAccount(coin, private_key)
-        print(coin, accounts)
-        accounts.append((coin, accounts))
-    except Exception as e:
-        continue
-print(accounts)
-
-# coins_private_key = {}
+# Create a DICTIONARY object called coins to store the output from `derive_wallets`.
+# coin_types = [BTC, ETH, BTCTEST]
+# all_coin_data = {}
 # for i in coin_types:
-#     for x in range(3):
-#         private_key = coins[i][int(x)]['privkey']
-#         coins_private_key[i] = whichAccount(i)
-
-# print(coins_private_key)
-
-# ETH_account = priv_key_to_account(private_key)
+#     if i == 'btc':
+#         pass
+#     else:
+#         all_coin_data[i] = derive_wallets(mnemonic, i)
 
 
-# # # Create a function called `create_tx` that creates an unsigned transaction appropriate metadata.
-
-
-# def create_tx(account, recipient, amount):
-#     gasEstimate = w3.eth.estimateGas(
-#         {
-#             "from": account.address,
-#             "to": recipient,
-#             "value": amount
-#         }
-#     )
-
-#     return {
-#         "chainId": 555,
-#         "from": account.address,
-#         "to": recipient,
-#         "value": amount,
-#         "gasPrice": w3.eth.gasPrice,
-#         "gas": gasEstimate,
-#         "nonce": w3.eth.getTransactionCount(account.address)
+# def to_account(coin, private_key):
+#     switch = {
+#         "eth": Account.from_key(private_key).address,
+#         "btc-test": bit.PrivateKeyTestnet(private_key)
 #     }
-# # # Create a function called `send_tx` that calls `create_tx`, signs and sends the transaction.
+
+#     return switch[coin]
+
+# Since we are only using two coins, this is an easy way to determine which one to return.
+
+# def private_key_to_account(coin_data):
+#     addresses = {}
+#     for coin, data in all_coin_data.items():
+#         # Find private key
+#         if coin == 'btc-test':
+#             # Find the private key
+#             private_key = data[0]['privkey']
+#             # Return an account associated with that private key
+#             account = bit.PrivateKeyTestnet(private_key)
+#             # Add that account to the dictionary associated with that coin
+#             addresses[coin] = private_key
+#         elif coin == 'eth':
+#             private_key = data[0]['privkey']
+#             account = Account.privateKeyToAccount(private_key)
+#             addresses[coin] = private_key
+#     return addresses
+
+# # Put private key and coin type into to_account function
+# addresses[coin] = to_account(coin, private_key)
 
 
-# def send_tx(account, recipient, amount):
-#     tx = create_tx(
-#         account,
-#         recipient,
-#         amount
-#     )
-#     sign_tx = account.sign_transaction(tx)
-#     result = w3.eth.sendRawTransaction(sign_tx.rawTransaction)
-#     print(f"This is my hash number: {result.hex()}")
+def create_tx(coin, account, recipient, amount):
+    if coin == 'eth':
+        gasEstimate = w3.eth.estimateGas(
+            {
+                "coin": coin,
+                "from": account.address,
+                "to": recipient,
+                "value": amount
+            }
+        )
+        return {
+            # Ganache
+            'chainId': 5777,
+            "from": account.address,
+            "to": recipient,
+            "value": amount,
+            "gasPrice": w3.eth.gasPrice,
+            "gas": gasEstimate,
+            "nonce": w3.eth.getTransactionCount(account.address),
+        }
+    elif coin == 'btc-test':
+        bit.PrivateKeyTestnet.prepare_transaction(
+            account.address,
+            [(recipient, amount, coin)]
+        )
 
-#     return result.hex()
+
+def send_tx(coin, account, amount, recipient):
+    # Create the transaction
+    transaction = create_tx(
+        coin,
+        account,
+        recipient,
+        amount
+    )
+
+    # Sign the transaction
+    sign_tx = account.sign_transaction(transaction)
+    # The transaction's hash
+    if coin == 'eth':
+        result = w3.eth.sendRawTransaction(sign_tx.rawTransaction)
+    elif coin == 'btc-test':
+        result = bit.NetworkAPI.broadcast_tx_testnet(sign_tx)
+    print(f"This is your hash number: {result.hex()}")
+    return result.hex()
+
+
+coin_type = input('Enter "ETH" or don\'t bother :) ----> ').lower()
+mnemonic = input('Please enter your mnemonic:\n ----> ')
+amount = int(input('How much Ether Would you like to send?: '))
+recipient = input(f'Which account would you like to send {amount} ETH to? ')
+private_key = derive_wallets(mnemonic, coin_type)[0]['privkey']
+
+account_key = Account.from_key(
+    private_key) or bit.PrivateKeyTestnet(private_key)
+
+send_tx(
+    coin_type,
+    account_key,
+    amount,
+    recipient
+)
+
+print('Sending the transaction over....')
+print('Check your Ganache account for the receipt')
+sleep(30)
+# account_addresses = private_key_to_account(all_coin_data)
+# print(account_addresses)
+
+# transaction = create_tx(account_address)
